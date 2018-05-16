@@ -54,6 +54,18 @@ server.post('/api/login', (req, res) => {
     })
 })
 
+server.get('/api/users', (req, res) => {
+
+    User
+    .find()
+    .then(users => {
+        res.status(200).json({ users })
+    })
+    .catch(err => {
+        res.status(401).send('You shall not pass!')
+    })
+})
+
 
 const port = 3000;
 server.listen(port, () => console.log(`This is running on port: ${port}`))
