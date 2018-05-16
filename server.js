@@ -37,6 +37,23 @@ server.post('/api/register', (req, res) => {
     })
 })
 
+server.post('/api/login', (req, res) => {
+    const { username, password } = req.body;
+
+    User
+    .findOne({ username })
+    .then(user => {
+        if (user) {
+            res.send('Logged in')
+        } else {
+            res.status(401).send('You shall not pass!');
+        }
+    })
+    .catch(err => {
+        res.status(401).send('You shall not pass!');
+    })
+})
+
 
 const port = 3000;
 server.listen(port, () => console.log(`This is running on port: ${port}`))
