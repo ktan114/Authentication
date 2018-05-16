@@ -1,7 +1,18 @@
 const express = require('express');
 const mongoose = require('mongoose');
 
+// Initialize server
 const server = express();
+
+// Connect to mongo
+mongoose
+.connect(`mongodb://localhost/authendb`)
+.then(connect => {
+    console.log('Connected!')
+})
+.catch(err => {
+    console.log('Not connected!')
+})
 
 // Middleware
 server.use(express.json());
