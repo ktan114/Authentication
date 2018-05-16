@@ -37,6 +37,7 @@ server.post('/api/register', (req, res) => {
     })
 })
 
+// POST method for login
 server.post('/api/login', (req, res) => {
     const { username, password } = req.body;
 
@@ -44,7 +45,15 @@ server.post('/api/login', (req, res) => {
     .findOne({ username })
     .then(user => {
         if (user) {
-            res.send('Logged in')
+            user
+            .isPasswordValid(password)
+            .then(isValid => {
+                if (isValid) {
+                    res.send('Logged in')
+                } else {
+                res.status(401).send('You shall not pass!');
+                }
+            })
         } else {
             res.status(401).send('You shall not pass!');
         }
@@ -54,6 +63,7 @@ server.post('/api/login', (req, res) => {
     })
 })
 
+// GET method for users
 server.get('/api/users', (req, res) => {
 
     User
@@ -65,7 +75,6 @@ server.get('/api/users', (req, res) => {
         res.status(401).send('You shall not pass!')
     })
 })
-
 
 const port = 3000;
 server.listen(port, () => console.log(`This is running on port: ${port}`))
